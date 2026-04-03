@@ -27,7 +27,10 @@
         .nav-cta{background:var(--grad1);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:50px;font-weight:600;font-size:.9rem;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .3s}
         .nav-cta:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(108,92,231,.4)}
 
-        .hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem}
+        .hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;background:url('img-hero.jpg') center/cover no-repeat}
+        .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,26,.85) 0%,rgba(15,15,26,.7) 50%,rgba(15,15,26,.95) 100%);z-index:0}
+        .hero>*{position:relative;z-index:1}
+        .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:150px;background:linear-gradient(transparent,var(--bg));z-index:1;pointer-events:none}
         .hero-content{max-width:800px}
         .hero-badge{display:inline-block;background:rgba(108,92,231,.15);border:1px solid rgba(108,92,231,.3);color:#A29BFE;padding:.4rem 1.2rem;border-radius:50px;font-size:.85rem;font-weight:500;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
         .hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;margin-bottom:1.5rem;animation:fadeUp .8s .4s both}
@@ -58,12 +61,13 @@
         .feat{list-style:none}
         .feat li{display:flex;gap:.8rem;margin-bottom:1rem;font-size:.95rem}
         .feat .ico{flex-shrink:0;width:24px;height:24px;background:var(--grad1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;margin-top:2px}
-        .about-visual{background:var(--card);border-radius:20px;padding:2.5rem;border:1px solid rgba(108,92,231,.15);text-align:center;position:relative;overflow:hidden}
-        .about-visual::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(108,92,231,.08),transparent,rgba(255,107,107,.08),transparent);animation:spin 10s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        .av-inner{position:relative;z-index:1}
-        .av-inner .big-emoji{font-size:4rem;margin-bottom:1rem}
-        .av-inner p{color:var(--muted);font-size:.9rem;line-height:1.8}
+        .about-img{width:100%;border-radius:12px;object-fit:cover;max-height:400px}
+        .g-img{height:220px;font-size:4rem;background-size:cover;background-position:center;position:relative;display:block}
+        .g-img .g-emoji{position:absolute;bottom:12px;right:16px;font-size:2.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+        .g-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,var(--card))}
+        .g-img.g1{background-image:url('https://images.unsplash.com/photo-1525921429624-479c5597670a?w=600&q=75')}
+        .g-img.g2{background-image:url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&q=75')}
+        .g-img.g3{background-image:url('https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=75')}
 
         .benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
         .b-card{background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:20px;padding:2rem;transition:all .4s;position:relative;overflow:hidden}
@@ -164,7 +168,7 @@
                     <li><span class="ico">✓</span><span>Конфиденциальность и уважение к каждому участнику</span></li>
                 </ul>
             </div>
-            <div class="about-visual reveal"><div class="av-inner"><div class="big-emoji">🎲🧠✨</div><p>Игра — это серьёзный инструмент трансформации.<br>Через неё подросток может понять себя,<br>найти ресурсы и обрести уверенность</p></div></div>
+            <div class="about-visual reveal"><img src="img-about.jpg" alt="Подростки на трансформационной игре" class="about-img"></div>
         </div>
     </div></section>
 
@@ -187,17 +191,17 @@
         <h2 class="sec-title reveal">Выберите свой сценарий</h2>
         <p class="sec-sub reveal">Каждый сценарий разработан психологами специально для подростков</p>
         <div class="games-grid">
-            <div class="g-card reveal"><div class="g-img g1">🌱</div><div class="g-body">
+            <div class="g-card reveal"><div class="g-img g1"><span class="g-emoji">🌱</span></div><div class="g-body">
                 <span class="g-tag">12-14 лет</span>
                 <h3>«Путь Героя»</h3><p>Классическое приключение самопознания: кто я, чего хочу и куда иду</p>
                 <div class="g-meta"><span>⏱ 3 часа</span><span>👥 4-6 чел</span><span>💜 2000₽</span></div>
             </div></div>
-            <div class="g-card reveal"><div class="g-img g2">🔥</div><div class="g-body">
+            <div class="g-card reveal"><div class="g-img g2"><span class="g-emoji">🔥</span></div><div class="g-body">
                 <span class="g-tag">14-17 лет</span>
                 <h3>«Точка Выбора»</h3><p>Игра про принятие решений: выбор профиля, профессии и жизненного пути</p>
                 <div class="g-meta"><span>⏱ 3.5 часа</span><span>👥 4-8 чел</span><span>💜 2500₽</span></div>
             </div></div>
-            <div class="g-card reveal"><div class="g-img g3">🌊</div><div class="g-body">
+            <div class="g-card reveal"><div class="g-img g3"><span class="g-emoji">🌊</span></div><div class="g-body">
                 <span class="g-tag">13-17 лет</span>
                 <h3>«Эмоции в деле»</h3><p>Управление эмоциями, преодоление тревожности и страхов перед экзаменами</p>
                 <div class="g-meta"><span>⏱ 2.5 часа</span><span>👥 4-6 чел</span><span>💜 2000₽</span></div>
