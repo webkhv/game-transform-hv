@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель — ИграТрансформ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#0F0F1A;--card:#1A1A2E;--card2:#222240;--primary:#6C5CE7;--accent:#FF6B6B;--text:#EDEDEF;--muted:#9B9BA7;--green:#00B894;--border:rgba(255,255,255,.08)}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        /* LOGIN SCREEN */
+        #login{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+        #login.hidden{display:none}
+        .login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:3rem;width:400px;max-width:90vw;text-align:center}
+        .login-box h2{font-size:1.5rem;margin-bottom:.5rem}
+        .login-box p{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+        .login-box input{width:100%;padding:.8rem 1.2rem;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:1rem;margin-bottom:1rem;outline:none}
+        .login-box input:focus{border-color:var(--primary)}
+        .login-box button{width:100%;padding:.8rem;border:none;border-radius:10px;background:linear-gradient(135deg,#6C5CE7,#A29BFE);color:#fff;font-weight:700;font-size:1rem;cursor:pointer;transition:transform .2s}
+        .login-box button:hover{transform:scale(1.02)}
+        .login-box .err{color:var(--accent);font-size:.85rem;margin-top:.5rem;display:none}
+        .login-field{margin-bottom:.8rem;text-align:left}
+        .login-field label{font-size:.8rem;color:var(--muted);margin-bottom:.3rem;display:block}
+        .login-field input{margin-bottom:0}
+        .gh-setup{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+        .gh-setup summary{color:var(--muted);font-size:.85rem;cursor:pointer}
+        .gh-setup p{font-size:.8rem;color:var(--muted);margin:.5rem 0;text-align:left;line-height:1.5}
+        .gh-setup a{color:var(--primary)}
+        /* ADMIN */
+        #admin{display:none}
+        #admin.show{display:block}
+        .admin-bar{position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;background:rgba(15,15,26,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+        .admin-bar h1{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,#6C5CE7,#A29BFE);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .bar-actions{display:flex;gap:.8rem}
+        .bar-actions button{padding:.6rem 1.5rem;border:none;border-radius:10px;font-weight:600;font-size:.9rem;cursor:pointer;transition:transform .2s}
+        .bar-actions button:hover{transform:scale(1.03)}
+        .btn-save{background:linear-gradient(135deg,#00B894,#55EFC4);color:#1a1a2e}
+        .btn-preview{background:rgba(108,92,231,.15);color:#A29BFE;border:1px solid rgba(108,92,231,.3) !important}
+        .btn-ghsetup{background:rgba(255,107,107,.15);color:#FF6B6B;border:1px solid rgba(255,107,107,.3) !important}
+        .admin-body{display:flex;min-height:calc(100vh - 60px)}
+        /* SIDEBAR */
+        .sidebar{width:240px;flex-shrink:0;background:var(--card);border-right:1px solid var(--border);padding:1.5rem 0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+        .sidebar a{display:block;padding:.7rem 1.5rem;color:var(--muted);text-decoration:none;font-size:.9rem;transition:all .2s;border-left:3px solid transparent}
+        .sidebar a:hover,.sidebar a.active{color:var(--text);background:rgba(108,92,231,.08);border-left-color:var(--primary)}
+        /* EDITOR */
+        .editor{flex:1;padding:2rem 3rem;max-width:900px}
+        .edit-section{margin-bottom:2.5rem;display:none}
+        .edit-section.active{display:block}
+        .edit-section h2{font-size:1.4rem;font-weight:700;margin-bottom:1.5rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+        .fg{margin-bottom:1.2rem}
+        .fg label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.4rem;font-weight:500}
+        .fg input,.fg textarea,.fg select{width:100%;padding:.7rem 1rem;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--text);font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s}
+        .fg input:focus,.fg textarea:focus{border-color:var(--primary)}
+        .fg textarea{min-height:80px;resize:vertical;line-height:1.5}
+        .fg .hint{font-size:.75rem;color:var(--muted);margin-top:.3rem}
+        .item-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;margin-bottom:1rem;position:relative}
+        .item-card h4{font-weight:600;font-size:.95rem;margin-bottom:1rem;color:var(--primary)}
+        .item-card .del-btn{position:absolute;top:.8rem;right:.8rem;background:rgba(255,107,107,.15);color:var(--accent);border:none;padding:.3rem .7rem;border-radius:8px;font-size:.8rem;cursor:pointer}
+        .add-btn{display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.2rem;border:1px dashed var(--border);border-radius:10px;background:transparent;color:var(--muted);font-size:.9rem;cursor:pointer;transition:all .2s}
+        .add-btn:hover{border-color:var(--primary);color:var(--primary)}
+        .img-preview{width:100%;max-width:300px;height:150px;object-fit:cover;border-radius:10px;border:1px solid var(--border);margin-top:.5rem;display:none}
+        .img-preview.show{display:block}
+        /* TOAST */
+        .toast{position:fixed;bottom:2rem;right:2rem;padding:1rem 1.5rem;border-radius:12px;color:#fff;font-weight:600;font-size:.9rem;z-index:2000;transform:translateY(100px);opacity:0;transition:all .3s}
+        .toast.show{transform:translateY(0);opacity:1}
+        .toast.success{background:var(--green)}
+        .toast.error{background:var(--accent)}
+        .toast.info{background:var(--primary)}
+        /* GH Setup Modal */
+        #ghModal{display:none;position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+        #ghModal.show{display:flex;align-items:center;justify-content:center}
+        .modal-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2.5rem;max-width:600px;width:90vw;max-height:85vh;overflow-y:auto}
+        .modal-box h2{margin-bottom:1rem}
+        .modal-box ol{color:var(--muted);font-size:.9rem;line-height:1.8;padding-left:1.5rem;margin:1rem 0}
+        .modal-box ol a{color:var(--primary)}
+        .modal-box .fg{margin-bottom:1rem}
+        .modal-actions{display:flex;gap:.8rem;margin-top:1.5rem}
+        .modal-actions button{flex:1;padding:.7rem;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:.9rem}
+        @media(max-width:768px){.admin-body{flex-direction:column}.sidebar{width:100%;position:relative;top:0;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:.5rem;overflow-x:auto;white-space:nowrap;display:flex}.sidebar a{display:inline-block;border-left:none;border-bottom:3px solid transparent;padding:.5rem .8rem;white-space:nowrap}.editor{padding:1rem}}
+    </style>
+</head>
+<body>
+<!-- LOGIN -->
+<div id="login">
+    <div class="login-box">
+        <h2>🔐 Вход в админку</h2>
+        <p>Редактирование контента лендинга</p>
+        <div class="login-field">
+            <label>Пароль администратора</label>
+            <input type="password" id="admPsw" placeholder="Введите пароль">
+        </div>
+        <div class="login-field" style="display:none" id="ghTokenWrap">
+            <label>GitHub PAT (для сохранения)</label>
+            <input type="password" id="ghTokenIn" placeholder="ghp_xxxxxxxxxxxx">
+            <div class="hint">Для сохранения изменений на GitHub Pages</div>
+        </div>
+        <button onclick="doLogin()">Войти</button>
+        <div class="err" id="loginErr">Неверный пароль</div>
+        <details class="gh-setup">
+            <summary>⚙️ Настройка GitHub Token</summary>
+            <ol>
+                <li>Перейти на <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens</a></li>
+                <li>Выбрать scopes: <b>repo</b>, <b>workflow</b></li>
+                <li>Установить срок (90 дней)</li>
+                <li>Скопировать токен и вставить ниже</li>
+            </ol>
+        </details>
+    </div>
+</div>
+
+<!-- GH Modal -->
+<div id="ghModal">
+    <div class="modal-box">
+        <h2>GitHub Token Setup</h2>
+        <p style="color:var(--muted);margin-bottom:1rem">Для сохранения изменений на GitHub Pages нужен Personal Access Token.</p>
+        <ol>
+            <li>Откройте <a href="https://github.com/settings/tokens/new" target="_blank">создание токена</a></li>
+            <li>Note: <b>game-transform-adm</b></li>
+            <li>Scopes: ✅ <b>repo</b>, ✅ <b>workflow</b></li>
+            <li>Скопируйте токен (показывается один раз!)</li>
+            <li>Вставьте в поле ниже</li>
+        </ol>
+        <div class="fg">
+            <label>GitHub PAT</label>
+            <input type="password" id="modalGhToken" placeholder="ghp_xxxxxxxxxxxx">
+        </div>
+        <div class="modal-actions">
+            <button style="background:var(--card2)" onclick="closeModal()">Отмена</button>
+            <button style="background:linear-gradient(135deg,#6C5CE7,#A29BFE);color:#fff" onclick="saveGhToken()">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin">
+    <div class="admin-bar">
+        <h1>✏️ Админ-панель — ИграТрансформ</h1>
+        <div class="bar-actions">
+            <button class="btn-preview" onclick="openPreview()">👁 Превью</button>
+            <button class="btn-ghsetup" onclick="openModalGh()">⚙️ GitHub Token</button>
+            <button class="btn-save" onclick="saveData()">💾 Сохранить</button>
+        </div>
+    </div>
+    <div class="admin-body">
+        <nav class="sidebar" id="sidebar"></nav>
+        <main class="editor" id="editor"></main>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const REPO_OWNER = 'webkhv';
+const REPO_NAME = 'game-transform-hv';
+const BRANCH = 'main';
+const ADMIN_PASSWORD = 'psw11wsp22';
+
+let data = null;
+let ghToken = localStorage.getItem('gh_token') || '';
+const files = ['data.json','index.html','admin.html'];
+
+// LOGIN
+function doLogin(){
+    const psw = document.getElementById('admPsw').value;
+    if(psw !== ADMIN_PASSWORD){
+        const e = document.getElementById('loginErr');
+        e.style.display='block';
+        setTimeout(()=>e.style.display='none',2000);
+        return;
+    }
+    document.getElementById('login').classList.add('hidden');
+    document.getElementById('admin').classList.add('show');
+    init();
+}
+
+// INIT
+async function init(){
+    try{
+        const r = await fetch('data.json?t='+Date.now());
+        if(!r.ok) throw new Error('data.json not found');
+        data = await r.json();
+        buildSidebar();
+        buildEditor();
+        switchTab('site');
+    }catch(e){
+        toast('Ошибка загрузки: '+e.message,'error');
+    }
+}
+
+const SECTIONS = [
+    {id:'site',label:'🏠 Шапка сайта',fields:[
+        {k:'navLogo',label:'Логотип'},{k:'title',label:'Title страницы'},{k:'badge',label:'Бейдж'},
+        {k:'heroTitle',label:'Заголовок Hero (HTML)'},{k:'heroSubtitle',label:'Подзаголовок Hero',type:'textarea'},
+        {k:'btnPrimary',label:'Текст основной кнопки'},{k:'btnOutline',label:'Текст кнопки "Узнать больше"'},
+        {k:'imgHero',label:'URL фонового изображения Hero',hint:'Относительный путь или полный URL'}
+    ]},
+    {id:'stats',label:'📊 Статистика',array:true,arrayKey:'site.stats'},
+    {id:'about',label:'ℹ️ О формате',fields:[
+        {k:'label',label:'Метка секции'},{k:'title',label:'Заголовок'},
+        {k:'text',label:'Описание',type:'textarea'},{k:'imgAbout',label:'URL изображения'},
+        {k:'aboutCaption',label:'Подпись к изображению'}
+    ],array:true,arrayKey:'about.features',arrayLabel:'Фичи'},
+    {id:'benefits',label:'🎯 Преимущества',fields:[{k:'label'},{k:'title'},{k:'subtitle',type:'textarea'}],
+        array:true,arrayKey:'benefits.items'},
+    {id:'games',label:'🎮 Игры',fields:[{k:'label'},{k:'title'},{k:'subtitle',type:'textarea'}],
+        array:true,arrayKey:'games.items'},
+    {id:'process',label:'📋 Как это работает',array:true,arrayKey:'process.items'},
+    {id:'reviews',label:'💬 Отзывы',fields:[{k:'label'},{k:'title'},{k:'subtitle',type:'textarea'}],
+        array:true,arrayKey:'reviews.items'},
+    {id:'cta',label:'📞 Призыв к действию',fields:[
+        {k:'title'},{k:'text',type:'textarea'},{k:'btnText',label:'Текст кнопки'},
+        {k:'btnUrl',label:'URL кнопки'},{k:'phone',label:'Телефон'}
+    ]},
+    {id:'footer',label:'🔻 Подвал',fields:[{k:'footer',label:'Текст футера'}]}
+];
+
+function getVal(path){
+    const parts = path.split('.');
+    let obj = data;
+    for(const p of parts) obj = obj[p];
+    return obj;
+}
+function setVal(path,val){
+    const parts = path.split('.');
+    let obj = data;
+    for(let i=0;i<parts.length-1;i++) obj = obj[parts[i]];
+    obj[parts[parts.length-1]] = val;
+}
+
+function buildSidebar(){
+    const sb = document.getElementById('sidebar');
+    sb.innerHTML = SECTIONS.map(s=>`<a href="#${s.id}" data-tab="${s.id}" onclick="switchTab('${s.id}')">${s.label}</a>`).join('');
+}
+
+function switchTab(id){
+    document.querySelectorAll('.sidebar a').forEach(a=>a.classList.toggle('active',a.dataset.tab===id));
+    buildSection(id);
+}
+
+function buildSection(id){
+    const sec = SECTIONS.find(s=>s.id===id);
+    if(!sec) return;
+    const ed = document.getElementById('editor');
+    let h = `<div class="edit-section active"><h2>${sec.label}</h2>`;
+    
+    // regular fields
+    if(sec.fields){
+        sec.fields.forEach(f=>{
+            const val = getVal(f.k);
+            const tp = f.type||'input';
+            h += `<div class="fg"><label>${f.label||f.k}</label>`;
+            if(tp==='textarea'){
+                h += `<textarea data-path="${f.k}" rows="3">${escHtml(val)}</textarea>`;
+            } else {
+                h += `<input type="text" data-path="${f.k}" value="${escHtml(val)}">`;
+            }
+            if(f.hint) h += `<div class="hint">${f.hint}</div>`;
+            if(f.k.toLowerCase().includes('img')){
+                h += `<img class="img-preview show" src="${escHtml(val)}" onerror="this.style.display='none'" data-src-for="${f.k}">`;
+            }
+            h += `</div>`;
+        });
+    }
+    
+    // array items
+    if(sec.array && sec.arrayKey){
+        const items = getVal(sec.arrayKey);
+        const label = sec.arrayLabel || sec.arrayKey.split('.').pop();
+        h += `<h3 style="margin:1.5rem 0 1rem;font-size:1rem;color:var(--muted)">${label}</h3>`;
+        items.forEach((item,i)=>{
+            h += `<div class="item-card"><h4>${label} #${i+1}</h4>`;
+            if(sec.arrayKey === 'site.stats'){
+                h += `<div class="fg"><label>Число</label><input data-ary="${sec.arrayKey}.${i}.num" value="${escHtml(item.num)}"></div>`;
+                h += `<div class="fg"><label>Подпись</label><input data-ary="${sec.arrayKey}.${i}.label" value="${escHtml(item.label)}"></div>`;
+            } else if(sec.arrayKey === 'about.features'){
+                h += `<div class="fg"><label>Текст фичи</label><input data-ary="${sec.arrayKey}.${i}.text" value="${escHtml(item)}"><button class="del-btn" onclick="aryDel('${sec.arrayKey}',${i})">Удалить</button></div>`;
+            } else if(sec.arrayKey === 'benefits.items'){
+                h += `<div class="fg"><label>Иконка (emoji)</label><input data-ary="${sec.arrayKey}.${i}.icon" value="${escHtml(item.icon)}"></div>`;
+                h += `<div class="fg"><label>Заголовок</label><input data-ary="${sec.arrayKey}.${i}.title" value="${escHtml(item.title)}"></div>`;
+                h += `<div class="fg"><label>Описание</label><textarea data-ary="${sec.arrayKey}.${i}.text" rows="2">${escHtml(item.text)}</textarea></div>`;
+                h += `<button class="del-btn" onclick="aryDel('${sec.arrayKey}',${i})">Удалить</button></div>`;
+            } else if(sec.arrayKey === 'games.items'){
+                h += `<div class="fg"><label>Emoji</label><input data-ary="${sec.arrayKey}.${i}.emoji" value="${escHtml(item.emoji)}"></div>`;
+                h += `<div class="fg"><label>Тег (возраст)</label><input data-ary="${sec.arrayKey}.${i}.tag" value="${escHtml(item.tag)}"></div>`;
+                h += `<div class="fg"><label>Название</label><input data-ary="${sec.arrayKey}.${i}.name" value="${escHtml(item.name)}"></div>`;
+                h += `<div class="fg"><label>Описание</label><textarea data-ary="${sec.arrayKey}.${i}.text" rows="2">${escHtml(item.text)}</textarea></div>`;
+                h += `<div class="fg"><label>Мета (через запятую)</label><input data-ary="${sec.arrayKey}.${i}.metaStr" value="${escHtml(item.meta.join(', '))}"></div>`;
+                h += `<div class="fg"><label>Фон CSS</label><input data-ary="${sec.arrayKey}.${i}.bg" value="${escHtml(item.bg)}"></div>`;
+                h += `<div class="fg"><label>URL картинки</label><input data-ary="${sec.arrayKey}.${i}.bgImg" value="${escHtml(item.bgImg)}"><img class="img-preview show" src="${escHtml(item.bgImg)}" onerror="this.style.display='none'"></div>`;
+                h += `<button class="del-btn" onclick="aryDel('${sec.arrayKey}',${i})">Удалить</button></div>`;
+            } else if(sec.arrayKey === 'process.items'){
+                h += `<div class="fg"><label>Номер</label><input data-ary="${sec.arrayKey}.${i}.num" value="${escHtml(item.num)}"></div>`;
+                h += `<div class="fg"><label>Заголовок</label><input data-ary="${sec.arrayKey}.${i}.title" value="${escHtml(item.title)}"></div>`;
+                h += `<div class="fg"><label>Описание</label><textarea data-ary="${sec.arrayKey}.${i}.text" rows="2">${escHtml(item.text)}</textarea></div>`;
+                h += `<button class="del-btn" onclick="aryDel('${sec.arrayKey}',${i})">Удалить</button></div>`;
+            } else if(sec.arrayKey === 'reviews.items'){
+                h += `<div class="fg"><label>Звёзды</label><input data-ary="${sec.arrayKey}.${i}.stars" value="${escHtml(item.stars)}"></div>`;
+                h += `<div class="fg"><label>Текст отзыва</label><textarea data-ary="${sec.arrayKey}.${i}.text" rows="3">${escHtml(item.text)}</textarea></div>`;
+                h += `<div class="fg"><label>Инициал</label><input data-ary="${sec.arrayKey}.${i}.avatar" value="${escHtml(item.avatar)}"></div>`;
+                h += `<div class="fg"><label>Имя</label><input data-ary="${sec.arrayKey}.${i}.name" value="${escHtml(item.name)}"></div>`;
+                h += `<div class="fg"><label>Роль</label><input data-ary="${sec.arrayKey}.${i}.role" value="${escHtml(item.role)}"></div>`;
+                h += `<button class="del-btn" onclick="aryDel('${sec.arrayKey}',${i})">Удалить</button></div>`;
+            }
+        });
+        h += `<button class="add-btn" onclick="aryAdd('${sec.arrayKey}')">+ Добавить ${label}</button>`;
+    }
+    
+    h += `</div>`;
+    ed.innerHTML = h;
+    
+    // attach input listeners for previews
+    ed.querySelectorAll('input,textarea').forEach(el=>{
+        el.addEventListener('input', ()=>{
+            // update preview for images
+            const srcFor = el.getAttribute('data-src-for');
+            if(srcFor){
+                const prev = ed.querySelector(`.img-preview[data-src-for="${srcFor}"]`);
+                if(prev){prev.src=el.value;prev.classList.add('show')}
+            }
+        });
+    });
+}
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function aryDel(path,idx){
+    const parts = path.split('.');
+    let obj = data;
+    for(let i=0;i<parts.length-1;i++) obj=obj[parts[i]];
+    const arr = obj[parts[parts.length-1]];
+    arr.splice(idx,1);
+    buildSection(document.querySelector('.sidebar a.active').dataset.tab);
+    toast('Элемент удалён','info');
+}
+
+function aryAdd(path){
+    const parts = path.split('.');
+    let obj = data;
+    for(let i=0;i<parts.length-1;i++) obj=obj[parts[i]];
+    const arr = obj[parts[parts.length-1]];
+    
+    if(path==='site.stats') arr.push({num:'100+',label:'новых'});
+    else if(path==='about.features') arr.push('Новая фича');
+    else if(path==='benefits.items') arr.push({icon:'✨',title:'Новое',text:'Описание'});
+    else if(path==='games.items') arr.push({emoji:'🎮',tag:'12-17 лет',name:'Новая игра',text:'Описание новой игры',bg:'linear-gradient(135deg,#6C5CE7,#A29BFE)',bgImg:'',meta:['⏱ 3 часа','👥 4-6 чел','💜 2000₽']});
+    else if(path==='process.items') arr.push({num:String(arr.length+1),title:'Новый шаг',text:'Описание шага'});
+    else if(path==='reviews.items') arr.push({stars:'★★★★★',text:'Новый отзыв',avatar:'?',name:'Имя Ф.',role:'роль'});
+    
+    buildSection(document.querySelector('.sidebar a.active').dataset.tab);
+    toast('Элемент добавлен','info');
+}
+
+// COLLECT ALL CHANGES
+function collectChanges(){
+    const ed = document.getElementById('editor');
+    // regular fields
+    ed.querySelectorAll('[data-path]').forEach(el=>{
+        const p = el.dataset.path;
+        const v = el.type==='textarea'?el.value:el.value;
+        setVal(p,v);
+    });
+    // array fields
+    ed.querySelectorAll('[data-ary]').forEach(el=>{
+        const p = el.dataset.ary;
+        const parts = p.split('.');
+        const aryPath = parts.slice(0,-1).join('.');
+        const idx = parseInt(parts.at(-1));
+        const key = parts.at(-2);
+        let obj = data;
+        for(const pp of aryPath.split('.')) obj=obj[pp];
+        obj[idx][key] = el.value;
+        
+        // parse meta string
+        if(key==='meta'){
+            // handled by metaStr
+        }
+    });
+    reprocessMeta();
+}
+
+function reprocessMeta(){
+    const ed = document.getElementById('editor');
+    ed.querySelectorAll('[data-ary$=".metaStr"]').forEach(el=>{
+        const p = el.dataset.ary;
+        const idx = parseInt(p.split('.').at(-2));
+        if(data.games && data.games.items && data.games.items[idx]){
+            data.games.items[idx].meta = el.value.split(',').map(s=>s.trim()).filter(Boolean);
+        }
+    });
+}
+
+// SAVE TO GITHUB
+async function saveData(){
+    if(!ghToken){
+        openModalGh();
+        return;
+    }
+    collectChanges();
+    const btn = document.querySelector('.btn-save');
+    btn.disabled = true;
+    btn.textContent = '⏳ Сохранение...';
+    
+    try{
+        // Save data.json
+        await ghPut('data.json', JSON.stringify(data, null, 2));
+        toast('✅ data.json сохранён!','success');
+        
+        // Save index.html (the data-driven version - it reads from data.json)
+        // We need to update the production index.html too
+        const r = await fetch('index.html?t='+Date.now());
+        const indexContent = await r.text();
+        await ghPut('index.html', indexContent);
+        toast('✅ index.html сохранён!','success');
+        
+        toast('🎉 Все изменения опубликованы!','success');
+    }catch(e){
+        toast('❌ Ошибка: '+e.message,'error');
+        if(e.message.includes('401')||e.message.includes('403')){
+            toast('Проверьте GitHub Token','error');
+            localStorage.removeItem('gh_token');
+            ghToken = '';
+        }
+    }
+    btn.disabled = false;
+    btn.textContent = '💾 Сохранить';
+}
+
+async function ghPut(file, content){
+    const b64 = btoa(unescape(encodeURIComponent(content)));
+    const sha = await ghGetSha(file);
+    const body = {message:'Admin update: '+file, branch:BRANCH, content:b64};
+    if(sha) body.sha = sha;
+    
+    const r = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${file}`, {
+        method:'PUT',
+        headers:{'Authorization':'token '+ghToken,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'},
+        body: JSON.stringify(body)
+    });
+    if(!r.ok){
+        const err = await r.json().catch(()=>({}));
+        throw new Error(err.message || r.statusText);
+    }
+}
+
+async function ghGetSha(file){
+    const r = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${file}`, {
+        headers:{'Authorization':'token '+ghToken,'Accept':'application/vnd.github.v3+json'}
+    });
+    if(r.ok){ const d=await r.json(); return d.sha; }
+    return null;
+}
+
+// TOKEN MODAL
+function openModalGh(){document.getElementById('ghModal').classList.add('show')}
+function closeModal(){document.getElementById('ghModal').classList.remove('show')}
+function saveGhToken(){
+    const t = document.getElementById('modalGhToken').value.trim();
+    if(!t){toast('Вставьте токен','error');return;}
+    ghToken = t;
+    localStorage.setItem('gh_token', t);
+    closeModal();
+    toast('GitHub Token сохранён','success');
+}
+
+// PREVIEW
+function openPreview(){
+    collectChanges();
+    localStorage.setItem('preview_data', JSON.stringify(data));
+    window.open('index.html?preview=1&t='+Date.now(), '_blank');
+}
+
+// TOAST
+function toast(msg, type='info'){
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast '+type;
+    setTimeout(()=>t.classList.add('show'),50);
+    setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// Handle preview mode for index.html
+(function(){
+    if(location.search.includes('preview=1')){
+        const pd = localStorage.getItem('preview_data');
+        if(pd){
+            const origFetch = window.fetch;
+            window.fetch = function(url){
+                if(url && url.includes('data.json')){
+                    return Promise.resolve(new Response(pd));
+                }
+                return origFetch.apply(this, arguments);
+            };
+        }
+    }
+})();
+</script>
+</body>
+</html>

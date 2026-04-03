@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Трансформационные игры для подростков в Хабаровске</title>
+    <title data-site-title>Loading...</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,6 @@
         .bg-orbs .orb:nth-child(2){width:400px;height:400px;background:#FF6B6B;bottom:10%;right:-100px;animation-delay:-7s}
         .bg-orbs .orb:nth-child(3){width:300px;height:300px;background:#74B9FF;top:50%;left:50%;animation-delay:-14s}
         @keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,-40px) scale(1.1)}66%{transform:translate(-30px,50px) scale(.95)}}
-
         .navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(15,15,26,.7);border-bottom:1px solid rgba(108,92,231,.1);transition:padding .3s}
         .navbar.scrolled{padding:.7rem 2rem;background:rgba(15,15,26,.95)}
         .nav-logo{font-weight:800;font-size:1.4rem;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -26,8 +25,7 @@
         .nav-links a:hover{color:#fff}
         .nav-cta{background:var(--grad1);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:50px;font-weight:600;font-size:.9rem;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .3s}
         .nav-cta:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(108,92,231,.4)}
-
-        .hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;background:url('img-hero.jpg') center/cover no-repeat}
+        .hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;background-size:cover;background-position:center;background-repeat:no-repeat}
         .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,26,.85) 0%,rgba(15,15,26,.7) 50%,rgba(15,15,26,.95) 100%);z-index:0}
         .hero>*{position:relative;z-index:1}
         .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:150px;background:linear-gradient(transparent,var(--bg));z-index:1;pointer-events:none}
@@ -48,27 +46,20 @@
         .stat-num{font-size:2rem;font-weight:800;background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .stat-lbl{font-size:.85rem;color:var(--muted);margin-top:.3rem}
         @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-
         section{position:relative;z-index:1;padding:6rem 2rem}
         .container{max-width:1100px;margin:0 auto}
         .sec-label{text-transform:uppercase;font-size:.8rem;letter-spacing:3px;color:var(--accent);font-weight:600;margin-bottom:.7rem}
         .sec-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:1rem}
         .sec-sub{color:var(--muted);font-size:1.1rem;max-width:600px;margin-bottom:3rem}
         .tc{text-align:center}.tc>.sec-sub{margin-inline:auto}
-
         .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
         .about-text p{color:var(--muted);font-size:1.05rem;margin-bottom:1.5rem}
         .feat{list-style:none}
         .feat li{display:flex;gap:.8rem;margin-bottom:1rem;font-size:.95rem}
         .feat .ico{flex-shrink:0;width:24px;height:24px;background:var(--grad1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;margin-top:2px}
-        .about-img{width:100%;border-radius:12px;object-fit:cover;max-height:400px}
-        .g-img{height:220px;font-size:4rem;background-size:cover;background-position:center;position:relative;display:block}
-        .g-img .g-emoji{position:absolute;bottom:12px;right:16px;font-size:2.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
-        .g-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,var(--card))}
-        .g-img.g1{background-image:url('https://images.unsplash.com/photo-1525921429624-479c5597670a?w=600&q=75')}
-        .g-img.g2{background-image:url('https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&q=75')}
-        .g-img.g3{background-image:url('https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&q=75')}
-
+        .about-img-wrap{border-radius:20px;overflow:hidden;border:1px solid rgba(108,92,231,.15);position:relative}
+        .about-img{width:100%;display:block;object-fit:cover;max-height:400px}
+        .about-caption{position:absolute;bottom:0;left:0;right:0;padding:1.2rem;background:linear-gradient(transparent,rgba(15,15,26,.9));color:#fff;font-size:.85rem;font-style:italic;line-height:1.5}
         .benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
         .b-card{background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:20px;padding:2rem;transition:all .4s;position:relative;overflow:hidden}
         .b-card::before{content:'';position:absolute;inset:0;border-radius:20px;padding:2px;background:var(--grad1);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s}
@@ -77,21 +68,18 @@
         .b-icon{font-size:2.5rem;margin-bottom:1rem}
         .b-card h3{font-size:1.2rem;font-weight:700;margin-bottom:.7rem}
         .b-card p{color:var(--muted);font-size:.9rem}
-
         .games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
         .g-card{background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:20px;overflow:hidden;transition:transform .4s}
         .g-card:hover{transform:translateY(-5px)}
-        .g-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:4rem}
-        .g-img.g1{background:linear-gradient(135deg,#6C5CE7,#A29BFE)}
-        .g-img.g2{background:linear-gradient(135deg,#FF6B6B,#FFA502)}
-        .g-img.g3{background:linear-gradient(135deg,#00B894,#55EFC4)}
+        .g-img{height:220px;font-size:4rem;background-size:cover;background-position:center;position:relative;display:block}
+        .g-img .g-emoji{position:absolute;bottom:12px;right:16px;font-size:2.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
+        .g-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,var(--card))}
         .g-body{padding:1.5rem}
         .g-tag{display:inline-block;background:rgba(108,92,231,.15);color:#A29BFE;padding:.2rem .8rem;border-radius:50px;font-size:.75rem;font-weight:600;margin-bottom:.7rem}
         .g-card h3{font-weight:700;font-size:1.15rem;margin-bottom:.5rem}
         .g-card p{color:var(--muted);font-size:.9rem}
         .g-meta{display:flex;gap:1rem;margin-top:1rem;font-size:.8rem;color:var(--muted)}
         .g-meta span{display:flex;align-items:center;gap:.3rem}
-
         .process-steps{display:flex;gap:2rem;position:relative;justify-content:center;flex-wrap:wrap}
         .step{text-align:center;flex:1;min-width:200px;max-width:250px;position:relative}
         .step-num{width:50px;height:50px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;margin:0 auto 1rem;position:relative;z-index:1}
@@ -99,173 +87,125 @@
         .step p{color:var(--muted);font-size:.9rem}
         .step-arrow{position:absolute;right:-1.5rem;top:25px;color:var(--muted);font-size:1.5rem;display:none}
         @media(min-width:768px){.step-arrow{display:block}}
-
         .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
         .r-card{background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:20px;padding:2rem;transition:transform .3s}
         .r-card:hover{transform:translateY(-3px)}
         .r-stars{color:#FFA502;font-size:1.1rem;margin-bottom:1rem;letter-spacing:2px}
-        .r-text{font-style:italic,color:var(--muted),font-size:.95rem;margin-bottom:1.5rem;line-height:1.7}
+        .r-text{font-style:italic;font-size:.95rem;margin-bottom:1.5rem;line-height:1.7;color:var(--muted)}
         .r-author{display:flex;align-items:center;gap:1rem}
-        .r-avatar{width:45px;height:45px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
+        .r-avatar{width:45px;height:45px;border-radius:50%;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#fff}
         .r-name{font-weight:600;font-size:.95rem}
         .r-role{font-size:.8rem;color:var(--muted)}
-
         .cta-box{background:var(--card);border:1px solid rgba(108,92,231,.2);border-radius:30px;padding:4rem 3rem;text-align:center;position:relative;overflow:hidden}
         .cta-box::before{content:'';position:absolute;inset:-2px;border-radius:32px;background:var(--grad1);z-index:-1;opacity:.3;filter:blur(20px)}
         .cta-box h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800;margin-bottom:1rem}
         .cta-box p{color:var(--muted);font-size:1.1rem;max-width:500px;margin:0 auto 2rem}
         .cta-btn{display:inline-block;background:var(--grad1);color:#fff;border:none;padding:1.2rem 3rem;border-radius:50px;font-weight:700;font-size:1.1rem;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .3s}
         .cta-btn:hover{transform:scale(1.05);box-shadow:0 8px 30px rgba(108,92,231,.4)}
-
         .footer{position:relative;z-index:1;padding:3rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,.05)}
         .footer p{color:var(--muted);font-size:.9rem}
         .footer a{color:var(--primary);text-decoration:none}
-
-        @media(max-width:768px){
-            .nav-links{display:none}
-            .about-grid{grid-template-columns:1fr}
-            .hero-stats{gap:1.5rem}
-            .process-steps{flex-direction:column;align-items:center}
-        }
-
+        @media(max-width:768px){.nav-links{display:none}.about-grid{grid-template-columns:1fr}.hero-stats{gap:1.5rem}.process-steps{flex-direction:column;align-items:center}}
         .reveal{opacity:0;transform:translateY(40px);transition:all .7s cubic-bezier(.22,.61,.36,1)}
         .reveal.visible{opacity:1;transform:translateY(0)}
     </style>
 </head>
 <body>
     <div class="bg-orbs"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
-
-    <nav class="navbar"><div class="nav-logo">ИграТрансформ</div><ul class="nav-links"><li><a href="#about">О играх</a></li><li><a href="#benefits">Польза</a></li><li><a href="#games">Игры</a></li><li><a href="#reviews">Отзывы</a></li><li><a href="#contact" class="nav-cta">Записаться</a></li></ul></nav>
-
-    <header class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">Хабаровск &bull; 2025</div>
-            <h1>Трансформационные <span class="hl">игры</span> для подростков</h1>
-            <p>Уникальный формат, где подростки через игру находят ответы на важные жизненные вопросы, развивают уверенность и учатся понимать себя</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Записаться на игру</a>
-                <a href="#about" class="btn btn-outline">Узнать больше</a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat"><div class="stat-num">500+</div><div class="stat-lbl">участников</div></div>
-                <div class="stat"><div class="stat-num">98%</div><div class="stat-lbl">довольных</div></div>
-                <div class="stat"><div class="stat-num">12+</div><div class="stat-lbl">сценариев</div></div>
-            </div>
-        </div>
-    </header>
-
-    <section id="about"><div class="container">
-        <div class="about-grid">
-            <div class="about-text reveal">
-                <div class="sec-label">О формате</div>
-                <h2 class="sec-title">Что такое трансформационные игры?</h2>
-                <p>Это не настольная игра и не психологический тренинг. Это нечто большее — пространство, где через игровые механики подростки проживают реальные жизненные ситуации и находят свои ответы.</p>
-                <ul class="feat">
-                    <li><span class="ico">✓</span><span>Безопасная среда для самовыражения и экспериментов</span></li>
-                    <li><span class="ico">✓</span><span>Профессиональные ведущие с психологическим образованием</span></li>
-                    <li><span class="ico">✓</span><span>Группы 4-8 человек — внимание каждому</span></li>
-                    <li><span class="ico">✓</span><span>Возраст 12-17 лет, группы по возрасту</span></li>
-                    <li><span class="ico">✓</span><span>Конфиденциальность и уважение к каждому участнику</span></li>
-                </ul>
-            </div>
-            <div class="about-visual reveal"><img src="img-about.jpg" alt="Подростки на трансформационной игре" class="about-img"></div>
-        </div>
-    </div></section>
-
-    <section id="benefits" class="tc"><div class="container">
-        <div class="sec-label reveal">Преимущества</div>
-        <h2 class="sec-title reveal">Что получит ваш подросток</h2>
-        <p class="sec-sub reveal">Каждая игра — это шаг к осознанности и внутренней силе</p>
-        <div class="benefits-grid">
-            <div class="b-card reveal"><div class="b-icon">🎯</div><h3>Самопознание</h3><p>Понимает свои желания, ценности и сильные стороны через игровые ситуации</p></div>
-            <div class="b-card reveal"><div class="b-icon">💪</div><h3>Уверенность</h3><p>Учится принимать решения и нести ответственность в безопасной среде</p></div>
-            <div class="b-card reveal"><div class="b-icon">🤝</div><h3>Коммуникация</h3><p>Развивает навыки общения, эмпатии и работы в команде</p></div>
-            <div class="b-card reveal"><div class="b-icon">🧩</div><h3>Осознанность</h3><p>Учится видеть причинно-следственные связи своих действий</p></div>
-            <div class="b-card reveal"><div class="b-icon">🌟</div><h3>Мотивация</h3><p>Находит внутренние стимулы и создаёт собственный план развития</p></div>
-            <div class="b-card reveal"><div class="b-icon">🛡️</div><h3>Стрессоустойчивость</h3><p>Проигрывает сложные ситуации и находит конструктивные выходы</p></div>
-        </div>
-    </div></section>
-
-    <section id="games"><div class="container">
-        <div class="sec-label reveal">Наши игры</div>
-        <h2 class="sec-title reveal">Выберите свой сценарий</h2>
-        <p class="sec-sub reveal">Каждый сценарий разработан психологами специально для подростков</p>
-        <div class="games-grid">
-            <div class="g-card reveal"><div class="g-img g1"><span class="g-emoji">🌱</span></div><div class="g-body">
-                <span class="g-tag">12-14 лет</span>
-                <h3>«Путь Героя»</h3><p>Классическое приключение самопознания: кто я, чего хочу и куда иду</p>
-                <div class="g-meta"><span>⏱ 3 часа</span><span>👥 4-6 чел</span><span>💜 2000₽</span></div>
-            </div></div>
-            <div class="g-card reveal"><div class="g-img g2"><span class="g-emoji">🔥</span></div><div class="g-body">
-                <span class="g-tag">14-17 лет</span>
-                <h3>«Точка Выбора»</h3><p>Игра про принятие решений: выбор профиля, профессии и жизненного пути</p>
-                <div class="g-meta"><span>⏱ 3.5 часа</span><span>👥 4-8 чел</span><span>💜 2500₽</span></div>
-            </div></div>
-            <div class="g-card reveal"><div class="g-img g3"><span class="g-emoji">🌊</span></div><div class="g-body">
-                <span class="g-tag">13-17 лет</span>
-                <h3>«Эмоции в деле»</h3><p>Управление эмоциями, преодоление тревожности и страхов перед экзаменами</p>
-                <div class="g-meta"><span>⏱ 2.5 часа</span><span>👥 4-6 чел</span><span>💜 2000₽</span></div>
-            </div></div>
-        </div>
-    </div></section>
-
-    <section id="process" class="tc"><div class="container">
-        <div class="sec-label reveal">Как это работает</div>
-        <h2 class="sec-title reveal">3 простых шага</h2>
-        <p class="sec-sub reveal">От записи до трансформации — всё просто</p>
-        <div class="process-steps reveal">
-            <div class="step"><div class="step-num">1</div><h4>Запись</h4><p>Выбираете игру и удобное время. Первичная беседа с ведущим</p><span class="step-arrow">→</span></div>
-            <div class="step"><div class="step-num">2</div><h4>Игра</h4><p>2-3.5 часа immersive-опыта с профессиональным ведущим</p><span class="step-arrow">→</span></div>
-            <div class="step"><div class="step-num">3</div><h4>Результат</h4><p>Осознания, инсайты и конкретный план действий для подростка</p></div>
-        </div>
-    </div></section>
-
-    <section id="reviews"><div class="container">
-        <div class="sec-label reveal">Отзывы</div>
-        <h2 class="sec-title reveal">Что говорят родители</h2>
-        <p class="sec-sub reveal">Реальные отзывы участников наших игр</p>
-        <div class="reviews-grid">
-            <div class="r-card reveal"><div class="r-stars">★★★★★</div><div class="r-text">«Дочь пришла после игры и сказала: "Мам, я поняла, чем хочу заниматься!" Такого эффекта я не ожидала. Спасибо огромное!»</div><div class="r-author"><div class="r-avatar">А</div><div><div class="r-name">Анна К.</div><div class="r-role">мама Алисы, 14 лет</div></div></div></div>
-            <div class="r-card reveal"><div class="r-stars">★★★★★</div><div class="r-text">«Сын стал увереннее в себе, перестал бояться отвечать на уроках. Заметили изменения уже после второй игры»</div><div class="r-author"><div class="r-avatar">Д</div><div><div class="r-name">Дмитрий В.</div><div class="r-role">папа Максима, 13 лет</div></div></div></div>
-            <div class="r-card reveal"><div class="r-stars">★★★★★</div><div class="r-text">«Ребёнок просит ещё! За 3 часа он больше узнал о себе, чем за год разговоров дома. Магия какая-то»</div><div class="r-author"><div class="r-avatar">Е</div><div><div class="r-name">Елена М.</div><div class="r-role">мама Кати, 15 лет</div></div></div></div>
-        </div>
-    </div></section>
-
-    <section id="contact" class="tc"><div class="container">
-        <div class="cta-box reveal">
-            <h2>Готовы к трансформации?</h2>
-            <p>Запишите вашего подростка на ближайшую игру — места ограничены</p>
-            <a href="https://t.me/your_bot" class="cta-btn">Записаться через Telegram</a>
-            <p style="margin-top:1.5rem;font-size:.9rem">или позвоните: <strong style="color:#fff">+7 (XXX) XXX-XX-XX</strong></p>
-        </div>
-    </div></section>
-
-    <footer class="footer"><p>© 2025 ИграТрансформ &bull; Хабаровск &bull; Все права защищены</p></footer>
+    <nav class="navbar" id="navbar"></nav>
+    <header class="hero" id="hero"></header>
+    <section id="about"></section>
+    <section id="benefits" class="tc"></section>
+    <section id="games"></section>
+    <section id="process" class="tc"></section>
+    <section id="reviews"></section>
+    <section id="contact" class="tc"></section>
+    <footer class="footer" id="footer"></footer>
 
     <script>
-        // Navbar scroll
-        window.addEventListener('scroll', () => {
-            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // Reveal on scroll
-        const revealAll = () => {
-            document.querySelectorAll('.reveal').forEach(el => {
-                const top = el.getBoundingClientRect().top;
-                if (top < window.innerHeight - 80) el.classList.add('visible');
-            });
-        };
-        window.addEventListener('scroll', revealAll);
-        window.addEventListener('load', revealAll);
-
-        // Smooth scroll for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-            a.addEventListener('click', e => {
-                e.preventDefault();
-                const target = document.querySelector(a.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
+    let D = null;
+    async function load(){
+        try {
+            const r = await fetch('data.json?t='+Date.now());
+            D = await r.json();
+        } catch(e) {
+            console.error('Failed to load data.json', e);
+            document.body.innerHTML = '<div style="padding:4rem;text-align:center"><h1>Ошибка загрузки data.json</h1></div>';
+            return;
+        }
+        render(); initReveal(); initNav();
+    }
+    function render(){
+        const s = D.site;
+        document.title = s.title;
+        document.querySelector('.hero').style.backgroundImage = `url('${s.imgHero}')`;
+        document.getElementById('navbar').innerHTML =
+            `<div class="nav-logo">${s.navLogo}</div>`+
+            `<ul class="nav-links">${s.navLinks.map(l=>`<li><a href="${l.href}"${l.isCta?' class="nav-cta"':''}>${l.text}</a></li>`).join('')}</ul>`;
+        document.getElementById('hero').innerHTML =
+            `<div class="hero-content">`+
+            `<div class="hero-badge">${s.badge}</div>`+
+            `<h1>${s.heroTitle}</h1>`+
+            `<p>${s.heroSubtitle}</p>`+
+            `<div class="hero-buttons"><a href="${s.navLinks.find(l=>l.isCta).href}" class="btn btn-primary">${s.btnPrimary}</a><a href="#about" class="btn btn-outline">${s.btnOutline}</a></div>`+
+            `<div class="hero-stats">${s.stats.map(st=>`<div class="stat"><div class="stat-num">${st.num}</div><div class="stat-lbl">${st.label}</div></div>`).join('')}</div>`+
+            `</div>`;
+        const a = D.about;
+        document.getElementById('about').innerHTML =
+            `<div class="container"><div class="about-grid">`+
+            `<div class="about-text reveal"><div class="sec-label">${a.label}</div><h2 class="sec-title">${a.title}</h2><p>${a.text}</p>`+
+            `<ul class="feat">${a.features.map(f=>`<li><span class="ico">✓</span><span>${f}</span></li>`).join('')}</ul></div>`+
+            `<div class="about-img-wrap reveal"><img src="${a.imgAbout}" alt="${a.title}" class="about-img"><div class="about-caption">${a.aboutCaption}</div></div>`+
+            `</div></div>`;
+        const b = D.benefits;
+        document.getElementById('benefits').innerHTML =
+            `<div class="container">`+
+            `<div class="sec-label reveal">${b.label}</div><h2 class="sec-title reveal">${b.title}</h2><p class="sec-sub reveal">${b.subtitle}</p>`+
+            `<div class="benefits-grid">${b.items.map(i=>`<div class="b-card reveal"><div class="b-icon">${i.icon}</div><h3>${i.title}</h3><p>${i.text}</p></div>`).join('')}</div>`+
+            `</div>`;
+        const g = D.games;
+        document.getElementById('games').innerHTML =
+            `<div class="container">`+
+            `<div class="sec-label reveal">${g.label}</div><h2 class="sec-title reveal">${g.title}</h2><p class="sec-sub reveal">${g.subtitle}</p>`+
+            `<div class="games-grid">${g.items.map(i=>`<div class="g-card reveal"><div class="g-img" style="background-image:url('${i.bgImg}');background-color:${i.bg.includes('#')?i.bg.split(',')[0].replace('linear-gradient(135deg,',''):i.bg}"><span class="g-emoji">${i.emoji}</span></div><div class="g-body"><span class="g-tag">${i.tag}</span><h3>${i.name}</h3><p>${i.text}</p><div class="g-meta">${i.meta.map(m=>`<span>${m}</span>`).join('')}</div></div></div>`).join('')}</div>`+
+            `</div>`;
+        const p = D.process;
+        document.getElementById('process').innerHTML =
+            `<div class="container">`+
+            `<div class="sec-label reveal">${p.label}</div><h2 class="sec-title reveal">${p.title}</h2><p class="sec-sub reveal">${p.subtitle}</p>`+
+            `<div class="process-steps reveal">${p.items.map((i,idx,arr)=>`<div class="step"><div class="step-num">${i.num}</div><h4>${i.title}</h4><p>${i.text}</p>${idx<arr.length-1?'<span class="step-arrow">→</span>':''}</div>`).join('')}</div>`+
+            `</div>`;
+        const rv = D.reviews;
+        document.getElementById('reviews').innerHTML =
+            `<div class="container">`+
+            `<div class="sec-label reveal">${rv.label}</div><h2 class="sec-title reveal">${rv.title}</h2><p class="sec-sub reveal">${rv.subtitle}</p>`+
+            `<div class="reviews-grid">${rv.items.map(i=>`<div class="r-card reveal"><div class="r-stars">${i.stars}</div><div class="r-text">${i.text}</div><div class="r-author"><div class="r-avatar">${i.avatar}</div><div><div class="r-name">${i.name}</div><div class="r-role">${i.role}</div></div></div></div>`).join('')}</div>`+
+            `</div>`;
+        const c = D.cta;
+        document.getElementById('contact').innerHTML =
+            `<div class="container"><div class="cta-box reveal">`+
+            `<h2>${c.title}</h2><p>${c.text}</p>`+
+            `<a href="${c.btnUrl}" class="cta-btn">${c.btnText}</a>`+
+            `<p style="margin-top:1.5rem;font-size:.9rem">или позвоните: <strong style="color:#fff">${c.phone}</strong></p>`+
+            `</div></div>`;
+        document.getElementById('footer').innerHTML = `<p>${D.footer}</p>`;
+    }
+    function initReveal(){document.querySelectorAll('.reveal').forEach(el=>{const chk=()=>{if(el.getBoundingClientRect().top<window.innerHeight-80)el.classList.add('visible')};window.addEventListener('scroll',chk);chk()})}
+    function initNav(){window.addEventListener('scroll',()=>document.querySelector('.navbar').classList.toggle('scrolled',window.scrollY>50));document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})})}
+    // Preview mode - intercept fetch for data.json
+    (function(){
+        if(location.search.includes('preview=1')){
+            var pd = localStorage.getItem('preview_data');
+            if(pd){
+                var origFetch = window.fetch;
+                window.fetch = function(url){
+                    if(url && (url.includes('data.json'))) return Promise.resolve(new Response(pd));
+                    return origFetch.apply(this, arguments);
+                };
+            }
+        }
+    })();
+    window.addEventListener('load',load);
     </script>
 </body>
 </html>
