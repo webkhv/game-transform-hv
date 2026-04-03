@@ -200,13 +200,5 @@
     "btnUrl": "https://t.me/your_bot",
     "phone": "+7 (XXX) XXX-XX-XX"
   },
-  "footer": "© 2026 ИграТрансформ • Хабаровск • Все права защищены",
-  "navLogo": "Трансформационные Игры в Хабаровске",
-  "title": "undefined",
-  "badge": "undefined",
-  "heroTitle": "undefined",
-  "heroSubtitle": "undefined",
-  "btnPrimary": "undefined",
-  "btnOutline": "undefined",
-  "imgHero": "undefined"
+  "footer": "© 2026 ИграТрансформ • Хабаровск • Все права защищены"
 }

@@ -190,10 +190,10 @@ async function init(){
 
 const SECTIONS = [
     {id:'site',label:'🏠 Шапка сайта',fields:[
-        {k:'navLogo',label:'Логотип'},{k:'title',label:'Title страницы'},{k:'badge',label:'Бейдж'},
-        {k:'heroTitle',label:'Заголовок Hero (HTML)'},{k:'heroSubtitle',label:'Подзаголовок Hero',type:'textarea'},
-        {k:'btnPrimary',label:'Текст основной кнопки'},{k:'btnOutline',label:'Текст кнопки "Узнать больше"'},
-        {k:'imgHero',label:'URL фонового изображения Hero',hint:'Относительный путь или полный URL'}
+        {k:'site.navLogo',label:'Логотип'},{k:'site.title',label:'Title страницы'},{k:'site.badge',label:'Бейдж'},
+        {k:'site.heroTitle',label:'Заголовок Hero (HTML)'},{k:'site.heroSubtitle',label:'Подзаголовок Hero',type:'textarea'},
+        {k:'site.btnPrimary',label:'Текст основной кнопки'},{k:'site.btnOutline',label:'Текст кнопки "Узнать больше"'},
+        {k:'site.imgHero',label:'URL фонового изображения Hero',hint:'Относительный путь или полный URL'}
     ]},
     {id:'stats',label:'📊 Статистика',array:true,arrayKey:'site.stats'},
     {id:'about',label:'ℹ️ О формате',fields:[
